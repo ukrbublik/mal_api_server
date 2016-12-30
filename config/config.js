@@ -1,4 +1,4 @@
-var isTest = true; //todo
+var isTest = false; //todo
 var config = {
   api: {
     apiServerPort: isTest ? 8800 : 80,
