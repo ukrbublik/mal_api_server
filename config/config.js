@@ -1,7 +1,8 @@
-var isTest = false; //todo
+var isTest = (process.env.isTest == '1');
 var config = {
   api: {
-    apiServerPort: isTest ? 8800 : 80,
+    apiServerPort: isTest ? 8800 : 
+      (process.env.PORT ? process.env.PORT : 80),
   },
   parser: {
     requestsQueueMaxConcurrent: 5,
