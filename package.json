@@ -1,7 +1,7 @@
 {
   "name": "mal_api_server",
   "version": "1.0.0",
-  "description": "Unofficial MAP API server",
+  "description": "Unofficial MAP API server, for educational purposes",
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.4.6",
