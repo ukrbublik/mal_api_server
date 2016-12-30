@@ -5,7 +5,7 @@ var config = {
       (process.env.PORT ? process.env.PORT : 80),
   },
   parser: {
-    requestsQueueMaxConcurrent: 5,
+    requestsQueueMaxConcurrent: 20,
     requestsQueueMaxQueue: Infinity,
     logHttp: true,
     retryTimeout: 5000,
