@@ -9,7 +9,7 @@ var config = {
     requestsQueueMaxQueue: Infinity,
     logHttp: true,
     retryTimeout: 5000,
-    maxRetrues: 5,
+    maxRetries: 5,
   }
 };
 
