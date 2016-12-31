@@ -8,8 +8,8 @@ var config = {
     queueSizeConcurrent: 20,
     parserQueueSizeConcurrent: 10,
     logHttp: true,
-    retryTimeout: [2000, 4000],
-    maxRetries: 5,
+    retryTimeout: [3000, 5000],
+    maxRetries: 4,
   }
 };
 
