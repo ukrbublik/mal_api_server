@@ -23,6 +23,12 @@ app.use(expressValidator([]));
 
 // API methods description
 var apiMethods = {
+  setProviderQueuePendingSize: {
+    desc: "Change queue pending size",
+    params: {
+      queuePendingSize: { type: 'int', req: true }
+    },
+  },
   userIdToLogin: {
     desc: "Get login from user id",
     returns: "string/null",
