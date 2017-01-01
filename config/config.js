@@ -9,7 +9,7 @@ var config = {
     parserQueueSizeConcurrent: 10,
     logHttp: true,
     retryTimeout: [3000, 5000],
-    maxRetries: 5,
+    maxRetries: 7,
   }
 };
 
