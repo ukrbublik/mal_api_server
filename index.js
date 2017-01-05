@@ -1,5 +1,5 @@
 /**
- * MAL API server
+ * MAL API (unofficial) server
  *
  * @author ukrbublik
  */
@@ -114,7 +114,7 @@ var apiMethods = {
 };
 
 
-// Simple map API methods to corresponding parser's functions (wit same name and params)
+// Simple map API methods to corresponding parser's functions (with same name and params)
 for (let methodName in apiMethods) {
   let methodInfo = apiMethods[methodName];
   app.get('/'+methodName, (req, res) => {
