@@ -122,12 +122,14 @@ for (let methodName in apiMethods) {
     let paramNames = Object.keys(methodInfo.params);
     for (let paramName in methodInfo.params) {
       let paramInfo = methodInfo.params[paramName];
+      let isEmptyVal = req.query[paramName] === undefined || req.query[paramName] === '';
       if (paramInfo.req === undefined || paramInfo.req == true)
         req.checkQuery(paramName, "Param '"+paramName+"' can't be emptry").notEmpty();
-      if (paramInfo.type) {
+      if (!isEmptyVal && paramInfo.type) {
         switch (paramInfo.type) {
         case 'int':
           req.checkQuery(paramName, "Param '"+paramName+"' must be int").isInt();
+        break;
         case 'bool':
           req.checkQuery(paramName, "Param '"+paramName+"' must be bool").isBoolean();
         break;
@@ -145,6 +147,7 @@ for (let methodName in apiMethods) {
         switch (paramInfo.type) {
         case 'int':
           paramVal = parseInt(paramVal);
+        break;
         case 'bool':
           paramVal = (paramVal == '1' || (''+paramVal).toLowerCase() == 'true');
         break;
@@ -152,14 +155,25 @@ for (let methodName in apiMethods) {
       methodArgs[paramName] = paramVal;
     }
 
-    req.getValidationResult().then((err) => {
-      if (!err.isEmpty()) {
-        res.status(200).json({ err: err.array() });
+    req.getValidationResult().then((verr) => {
+      if (!verr.isEmpty()) {
+        let errs = verr.array();
+        let msg = "API validation error: " + (!errs.length ? "?" : 
+          errs[0].msg + (errs.length > 1 ? " (and " + (errs.length - 1) + " more)" : ""));
+        let err = new MalError(msg, 200, req.url, 4, errs);
+
+        res.status(200).json({
+          err: err
+        });
       } else {
         parser[methodName](methodArgs).then((data) => {
-          res.status(200).json({ res: data });
+          res.status(200).json({
+            res: data
+          });
         }).catch((err) => {
-          res.status(200).json({ err: err });
+          res.status(200).json({
+            err: err
+          });
         });
       }
     });
