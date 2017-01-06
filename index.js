@@ -63,7 +63,8 @@ var apiMethods = {
     returns: "object { ratings: {<animeId> => <rating>, ..}, listUpdated: <Date>, "
      + "unratedAnimeIdsInList: [<animeId>, ...] }",
     params: {
-      login: { type: 'string', req: true }
+      login: { type: 'string', req: true },
+      altJson: { type: 'bool', req: false, default: false },
     },
   },
   getApproxMaxAnimeId: {
@@ -127,6 +128,8 @@ for (let methodName in apiMethods) {
         switch (paramInfo.type) {
         case 'int':
           req.checkQuery(paramName, "Param '"+paramName+"' must be int").isInt();
+        case 'bool':
+          req.checkQuery(paramName, "Param '"+paramName+"' must be bool").isBoolean();
         break;
         }
       }
@@ -135,9 +138,17 @@ for (let methodName in apiMethods) {
     let methodArgs = {};
     for (let paramName of paramNames) {
       let paramInfo = methodInfo.params[paramName];
-      let paramVal = (req.query[paramName] !== undefined && req.query[paramName] !== '' ? 
-        req.query[paramName] : 
-        (paramInfo.default !== undefined ? paramInfo.default : null));
+      let isEmptyVal = req.query[paramName] === undefined || req.query[paramName] === '';
+      let paramVal = !isEmptyVal ? req.query[paramName] : 
+        (paramInfo.default !== undefined ? paramInfo.default : null);
+      if (!isEmptyVal)
+        switch (paramInfo.type) {
+        case 'int':
+          paramVal = parseInt(paramVal);
+        case 'bool':
+          paramVal = (paramVal == '1' || (''+paramVal).toLowerCase() == 'true');
+        break;
+        }
       methodArgs[paramName] = paramVal;
     }
 
