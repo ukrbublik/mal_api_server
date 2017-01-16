@@ -184,3 +184,4 @@ for (let methodName in apiMethods) {
 server.listen(config.api.apiServerPort, () => {
   console.log('API listening on port ' + config.api.apiServerPort);
 });
+
